@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Chiara — Portfolio</title>
-<meta name="description" content="Portfolio de Chiara.">
+<title>Chiara Bianco</title>
+<meta name="description" content="Portfolio de Chiara Bianco.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
@@ -38,6 +38,18 @@
   .logo { display: flex; align-items: center; gap: .6rem; }
   .logo i { width: .9rem; height: .9rem; border-radius: 50%; background: var(--ink); display: inline-block; }
   header nav { position: absolute; left: 32%; font-weight: 500; font-size: 1.1rem; }
+
+  /* Menus déroulants (Contact, Social) */
+  .dd { position: relative; pointer-events: auto; display: inline-block; }
+  .dd-btn { font: inherit; color: inherit; background: none; border: 0; padding: 0; }
+  .dd-menu {
+    position: absolute; top: 100%; left: 0;
+    display: none; flex-direction: column;
+    padding-top: .5rem; gap: .15rem; white-space: nowrap;
+  }
+  .dd.right { text-align: right; }
+  .dd.right .dd-menu { left: auto; right: 0; align-items: flex-end; }
+  .dd:hover .dd-menu, .dd:focus-within .dd-menu, .dd.open .dd-menu { display: flex; }
 
   /* ---------- Projets ---------- */
   #projets { display: flex; padding: 14rem var(--pad) 12rem; }
@@ -104,9 +116,21 @@
 <body>
 
 <header>
-  <a href="#" class="logo">Chiara — Portfolio <i></i></a>
-  <nav><a href="#projets">Projets</a>, <a href="#apropos">À propos</a>, <a href="#contact">Contact</a></nav>
-  <a href="mailto:chiara@exemple.com">Parlons-en</a>
+  <a href="#" class="logo">Chiara — Bianco <i></i></a>
+  <nav><a href="#projets">Projets</a>, <a href="#apropos">À propos</a>, <span class="dd" id="contactdd">
+      <button class="dd-btn" type="button" aria-expanded="false">Contact</button>
+      <span class="dd-menu">
+        <a href="mailto:chiarabianco@outlook.fr">chiarabianco@outlook.fr</a>
+        <a href="tel:+33643652168">06 43 65 21 68</a>
+      </span>
+    </span></nav>
+  <div class="dd right" id="social">
+    <button class="dd-btn" type="button" aria-expanded="false">Social</button>
+    <div class="dd-menu">
+      <a href="https://www.instagram.com/chiaraabnc/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.linkedin.com/in/chiara-bianco-0170a1237/?isSelfProfile=false" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
 </header>
 
 <main>
@@ -129,16 +153,12 @@
         - href       : le lien vers la page du projet (ou # pour l'instant)
     -->
     <div class="list" id="list">
-      <a class="item" href="#" data-media="media/projet1.jpg" data-cat="Photographie"
-         data-bio="Courte description du projet 1. Remplace ce texte par ta bio.">Projet un</a>
-      <a class="item" href="#" data-media="media/projet2.jpg" data-cat="Illustration"
-         data-bio="Courte description du projet 2. Remplace ce texte par ta bio.">Projet deux</a>
+      <a class="item" href="#" data-media="media/projet1.jpg" data-cat="Cadreuse"
+         data-bio="Courte description du projet 1. Remplace ce texte par ta bio.">Quotidien</a>
+      <a class="item" href="#" data-media="media/projet2.jpg" data-cat="Cadreuse"
+         data-bio="Courte description du projet 2. Remplace ce texte par ta bio.">Belle et Bien</a>
       <a class="item" href="#" data-media="media/projet3.mp4" data-cat="Vidéo"
-         data-bio="Courte description du projet 3. Remplace ce texte par ta bio.">Projet trois</a>
-      <a class="item" href="#" data-media="media/projet4.jpg" data-cat="Identité visuelle"
-         data-bio="Courte description du projet 4. Remplace ce texte par ta bio.">Projet quatre</a>
-      <a class="item" href="#" data-media="media/projet5.jpg" data-cat="Direction artistique"
-         data-bio="Courte description du projet 5. Remplace ce texte par ta bio.">Projet cinq</a>
+         data-bio="Courte description du projet 3. Remplace ce texte par ta bio.">Fashion Week</a>
     </div>
   </section>
 
@@ -151,7 +171,8 @@
 <footer id="contact">
   <h2>Contact</h2>
   <p>Un projet en tête ? Écrivons-nous.</p>
-  <a href="mailto:chiara@exemple.com">chiara@exemple.com</a>
+  <a href="mailto:chiarabianco@outlook.fr">chiarabianco@outlook.fr</a>
+  <p style="margin-top:1.2rem"><a href="tel:+33643652168">06 43 65 21 68</a></p>
 </footer>
 
 <div class="dot" id="dot"></div>
@@ -164,6 +185,21 @@
   var bio = document.getElementById('bio');
   var list = document.getElementById('list');
   var section = document.getElementById('projets');
+
+  /* ----- Menus déroulants (clic) ----- */
+  var dds = Array.prototype.slice.call(document.querySelectorAll('.dd'));
+  dds.forEach(function (dd) {
+    var btn = dd.querySelector('.dd-btn');
+    btn.addEventListener('click', function () {
+      var open = !dd.classList.contains('open');
+      dds.forEach(function (o) { o.classList.remove('open'); });
+      if (open) dd.classList.add('open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  });
+  document.addEventListener('click', function (e) {
+    dds.forEach(function (dd) { if (!dd.contains(e.target)) dd.classList.remove('open'); });
+  });
 
   /* ----- Aperçu à gauche ----- */
   function show(item) {
@@ -230,4 +266,3 @@
 </script>
 </body>
 </html>
-
